@@ -136,7 +136,7 @@ with mp_holistic.Holistic(model_complexity=1,smooth_landmarks="true",min_detecti
             if angle >= 40 and angle <= 50:
                 forearm = "GOOD"
             else:
-                forearm = "not 45 ({})".format(angle)
+                forearm = "not at 45"
         except:
             pass
 
@@ -150,7 +150,7 @@ with mp_holistic.Holistic(model_complexity=1,smooth_landmarks="true",min_detecti
             if angle >= (forearm_angle - 5) and angle <= (forearm_angle + 5):
                 palm = "GOOD"
             else:
-                palm = "not in line ({})".format(angle)
+                palm = "not in line"
         except:
             pass
     
@@ -164,7 +164,7 @@ with mp_holistic.Holistic(model_complexity=1,smooth_landmarks="true",min_detecti
             if angle >=40 and angle <= 69:
                 flat = "GOOD"
             else:
-                flat = "twisted {}".format(angle)
+                flat = "not visible"
 
         except:
             pass
