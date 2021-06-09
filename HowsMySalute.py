@@ -37,7 +37,7 @@ flat = ""
 extension = ""
 
 # For webcam input:
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(1)  # The video capture device (1) may need to be changed for your system.
 with mp_holistic.Holistic(model_complexity=1,smooth_landmarks="true",min_detection_confidence=0.6,min_tracking_confidence=0.6) as holistic:
 
     while cap.isOpened():
