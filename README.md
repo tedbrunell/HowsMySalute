@@ -20,3 +20,15 @@ This script will track to following parts of the requirement:
 * Palm is visible
 
 To prepare your system for the script, make sure python 3 is installed along with mediapipe, OpenCV, numpy and matplotlib.  The pip program can be used for the installation.
+
+Information about Mediapipe can be found [here](https://google.github.io/mediapipe/solutions/solutions.html)
+
+For the landmarks that are used by Mediapipe, please refer to the below graphics.
+
+Pose:
+
+![pose_landmarks](https://github.com/tedbrunell/HowsMySalute/blob/a8e1aaace0e1b7f5980a61f8d7a975eab4299a63/pictures/pose_tracking_full_body_landmarks.png)
+
+Hands:
+
+![hand_landmarks](https://github.com/tedbrunell/HowsMySalute/blob/a8e1aaace0e1b7f5980a61f8d7a975eab4299a63/pictures/hand_landmarks.png)
