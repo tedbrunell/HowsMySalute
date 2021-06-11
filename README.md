@@ -19,7 +19,13 @@ This script will track to following parts of the requirement:
 * Wrist and hand is a in-line with the forearm
 * Palm is visible
 
-To prepare your system for the script, make sure python 3 is installed along with mediapipe, OpenCV, numpy and matplotlib.  The pip program can be used for the installation.
+To prepare your system for the script, make sure python 3 is installed along with mediapipe, OpenCV, numpy flask and matplotlib.  The pip program can be used for the installation.
+
+```
+pip install mediapipe
+pip install flask
+pip install matplotlib
+```
 
 Information about Mediapipe can be found [here](https://google.github.io/mediapipe/solutions/solutions.html)
 
@@ -32,3 +38,10 @@ Pose:
 Hands:
 
 ![hand_landmarks](https://github.com/tedbrunell/HowsMySalute/blob/a8e1aaace0e1b7f5980a61f8d7a975eab4299a63/pictures/hand_landmarks.png)
+
+To run the code, use the command 
+```
+python app.py
+```
+
+Open the URL that is displayed on the screen to see the mirrored image of yourself.  See if you can hold the salute for 3-5 seconds.
