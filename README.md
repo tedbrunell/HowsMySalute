@@ -1,6 +1,6 @@
 # HowsMySalute
 
-This is a simple computer vision program to try to determine is someone's "salute" pose meets USMC standards.  Marine Corps Order (MCO) [5060.20](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/1867417/mco-506020-cancels-mco-p506020/) covers the requirements for a proper salute.
+This is a simple computer vision program to try to determine if someone's "salute" pose meets USMC standards.  Marine Corps Order (MCO) [5060.20](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/1867417/mco-506020-cancels-mco-p506020/) covers the requirements for a proper salute.
 
 >When "SALUTE" is given, raise your right hand smartly in the
 >most direct manner until the tip of your forefinger touches the lower part
