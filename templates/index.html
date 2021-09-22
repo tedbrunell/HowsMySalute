@@ -2,6 +2,23 @@
   <head>
     <title>How Is My Salute?</title>
     <style>
+        .grid-container {
+		display: grid;
+		grid-template-columns: 700px 1000px;
+		width: 1800px;
+		margin-left: auto;
+		margin-right: auto;
+		justify-content: space-evenly;
+		justify-items: center;
+		align-content: space-evenly;
+		align-content: center;
+	}
+	.grid-video {
+		width: 700px;
+	}
+	.grid-text {
+		width: 900px;
+	}
         h1   {
 		color: red;
 		font-family: arial;
@@ -23,32 +40,37 @@
   </head>
   <body>
     <h1 align="center" font="arial">How Is My Salute?</h1>
-    <div align="center">
-      <img src="{{ url_for('video_feed') }}">
-    </div>
-    <br>
-    <p>This is a simple computer vision program to try to determine if someone's "salute" meets USMC standards. Marine Corps Order (MCO) 5060.20 covers the requirements for a proper salute.</p>
+    <div class="grid-container">
+      <div class="grid-video">
+        <img src="{{ url_for('video_feed') }}">
+      </div>
+      <div class="grid-text">
+    	<p>This is a simple computer vision program to try to determine if someone's "salute" meets U.S. Marine Corps standards. Marine Corps Order (MCO) 5060.20 covers the requirements for a proper salute.</p>
 
-    <p> From MCO 5060.20:</p>
+    	<p> From MCO 5060.20:</p>
 
-    <pre>
-    When "SALUTE" is given, raise your right hand smartly in the most direct manner 
-    until the tip of your forefinger touches the lower part of the headdress above 
-    and slightly right of your right eye. Your fingers should be extended straight 
-    and joined with the thumb along the forefinger. You should be able to see your 
-    entire palm when looking straight ahead. Your upper arm should be parallel with 
-    the deck with the elbow in line with the body and your forearm at a 45-degree angle.  
-    Your wrist and hand should be straight, a continuation of the line made by your 
-    forearm. At the same time, if not in ranks, turn your head and eyes toward the 
-    person or colors you are saluting.</pre>
+    	<pre>
+    	When "SALUTE" is given, raise your right hand smartly in the most 
+	direct manner until the tip of your forefinger touches the lower 
+	part of the headdress above and slightly right of your right eye. 
+	Your fingers should be extended straight and 	joined with the 
+	thumb along the forefinger. You should be able to see your entire 
+	palm when looking straight ahead. Your upper arm should be parallel 
+	with the deck with the elbow inline with the body and your forearm 
+	at a 45-degree angle.  Your wrist and hand should be straight, a 
+	continuation of the line made by your forearm. At the same time, if 
+	not in ranks, turn your head and eyes toward the person or colors 
+	you are saluting.</pre>
 
-    <p>This script attempt track to your joints and body parts to determine if you meet the requirement:</p>
+    	<p>This script attempts track to your joints and body parts to determine if you meet the requirement:</p>
 
-    <ul>
+    	<ul>
 	    <li>Upper Arm is parallel to the deck</li>
 	    <li>Forearm is at a 45 degree angle</li>
 	    <li>Wrist and hand is a in-line with the forearm</li>
 	    <li>Palm is visible</li>
-    </ul>
+    	</ul>
+      </div>
+    </div>
   </body>
 </html>
