@@ -70,11 +70,7 @@ class salute(object):
             #   joints.pose_landmarks.landmark[22].visibility = 0
 
         # Draw face landmarks
-<<<<<<< HEAD
-            mp_drawing.draw_landmarks(image, joints.face_landmarks, mp_holistic.FACEMESH_TESSELATION,
-=======
             mp_drawing.draw_landmarks(image, joints.face_landmarks, mp_holistic.FACEMESH_CONTOURS,
->>>>>>> b5997c03c4acafa690a72f9c152aec69796fedd0
                                   mp_drawing.DrawingSpec(color=(80,110,10), thickness=1, circle_radius=1),
                                   mp_drawing.DrawingSpec(color=(80,256,121), thickness=1, circle_radius=1)
                                  )
