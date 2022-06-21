@@ -70,9 +70,13 @@ class salute(object):
             #   joints.pose_landmarks.landmark[22].visibility = 0
 
         # Draw face landmarks
+<<<<<<< HEAD
             mp_drawing.draw_landmarks(image, joints.face_landmarks, mp_holistic.FACEMESH_TESSELATION,
+=======
+            mp_drawing.draw_landmarks(image, joints.face_landmarks, mp_holistic.FACEMESH_CONTOURS,
+>>>>>>> b5997c03c4acafa690a72f9c152aec69796fedd0
                                   mp_drawing.DrawingSpec(color=(80,110,10), thickness=1, circle_radius=1),
-                                  mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=1)
+                                  mp_drawing.DrawingSpec(color=(80,256,121), thickness=1, circle_radius=1)
                                  )
         # Pose Detections
             mp_drawing.draw_landmarks(image, joints.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
@@ -132,14 +136,14 @@ class salute(object):
                 forearm = ""
                 pass
 
-    # Test if hand is in line with the forearm (+- 5 degrees)
+    # Test if hand is in line with the forearm (+-8  degrees)
             try:
                 pt1 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
                 pt2 = [pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].x,pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].y]
 
                 angle = self.calculate_angle(pt1,pt2)
 
-                if angle >= (forearm_angle - 5) and angle <= (forearm_angle + 5):
+                if angle >= (forearm_angle - 8) and angle <= (forearm_angle + 8):
                     palm = "GOOD"
                 else:
                     palm = "not in line"
