@@ -46,8 +46,8 @@ python app.py
 
 If you want to build this as a Podman container, a Dockerfile is included.  Run the following commands to build and run the container:
 ```
-$ podman build --no-cache --format docker -t salute .
-$ podman run -it --device /dev/video0 -p 8080:8080 -d localhost/salute app.py
+$ podman build --layers=false -t howsmysalute .
+$ podman run -it --device /dev/video0 -p 8080:8080 -d localhost/howsmysalute
 ```
 
-Open the URL that is displayed on the screen to see the mirrored image of yourself.  See if you can hold the salute for 3-5 seconds.
+Open a browser to http://localhost:8080 to see the mirrored image of yourself.  See if you can hold the salute for 3-5 seconds.

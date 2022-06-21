@@ -6,12 +6,16 @@ RUN yum -y install opencv-core opencv-contrib
 
 RUN python3 -m pip install --upgrade pip 
 WORKDIR /app
+RUN mkdir /app/templates/
+RUN pip3 install protobuf==3.20.*
 RUN pip3 install mediapipe
 RUN pip3 install matplotlib
 RUN pip3 install flask
 
 EXPOSE 8080
 
-COPY . /app
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+COPY app.py /app
+COPY HowsMySalute.py /app
+COPy templates/ /app/templates/
+
+CMD ["python3","app.py"]
