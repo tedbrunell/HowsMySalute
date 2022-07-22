@@ -1,8 +1,12 @@
 FROM ubi8/python-39
+
+# If the container is not run on a registered RHEL system then use this for the base container:
+# FROM registry.fedoraproject.org/f35/python3
+
 LABEL maintainer="tbrunell@redhat.com"
 USER 0
 
-RUN yum -y install opencv-core opencv-contrib
+RUN yum -y install --nodocs opencv-core opencv-contrib
 
 RUN python3 -m pip install --upgrade pip 
 WORKDIR /app

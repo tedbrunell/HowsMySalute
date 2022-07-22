@@ -27,7 +27,7 @@ class salute(object):
 
     def __init__(self):
         # For webcam input:
-        self.cap = cv2.VideoCapture(0) 
+        self.cap = cv2.VideoCapture(-1, cv2.CAP_V4L) 
 
 
     def get_salute(self):   
