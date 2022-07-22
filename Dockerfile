@@ -6,7 +6,8 @@ FROM ubi8/python-39
 LABEL maintainer="tbrunell@redhat.com"
 USER 0
 
-RUN yum -y install --nodocs opencv-core opencv-contrib
+RUN yum -y install --nodocs opencv-core opencv-contrib  &&\
+    yum clean all -y
 
 RUN python3 -m pip install --upgrade pip 
 WORKDIR /app
