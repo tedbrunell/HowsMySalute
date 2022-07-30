@@ -35,7 +35,7 @@ class salute(object):
 
             while self.cap.isOpened():
                 # Recolor Feed
-                image = cv2.cvtColor(cv2.flip(frame, 1), cv2.COLOR_BGR2RGB)
+                image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 image.flags.writeable = False
 
                 # Make Detections
@@ -106,8 +106,8 @@ class salute(object):
 
                     # Test if upper arm is parallel to the ground (+- 5 degrees)
                     try:
-                        pt1 = [pose[mp_holistic.PoseLandmark.LEFT_SHOULDER.value].x,pose[mp_holistic.PoseLandmark.LEFT_SHOULDER.value].y]
-                        pt2 = [pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].y]
+                        pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].x,pose[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y]
+                        pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y]
 
                         angle = self.calculate_angle(pt1,pt2)
 
@@ -121,8 +121,8 @@ class salute(object):
 
                     # Test if forearm is at 45 degree angle (+- 5 degrees)
                     try:
-                        pt1 = [pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].y]
-                        pt2 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
+                        pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y]
+                        pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y]
 
                         angle = self.calculate_angle(pt1,pt2)
                         forearm_angle = angle
@@ -137,8 +137,8 @@ class salute(object):
 
                     # Test if hand is in line with the forearm (+-8  degrees)
                     try:
-                        pt1 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
-                        pt2 = [pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].x,pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].y]
+                        pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y]
+                        pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].x,pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].y]
 
                         angle = self.calculate_angle(pt1,pt2)
 
@@ -152,8 +152,8 @@ class salute(object):
 
                     # Test for a flat hand (able to see palm)
                     try:
-                        pt1 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
-                        pt2 = [pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].x,pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].y]
+                        pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y]
+                        pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].x,pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].y]
 
                         angle = self.calculate_angle(pt1,pt2)
 
@@ -188,6 +188,10 @@ class salute(object):
                     # except:
                     #     fingers = ""
                     #     pass
+
+                    
+                    # Flip the image so it is mirrored
+                    image = cv2.flip(image,1)
 
                     # Scoring box
                     cv2.rectangle(image, (0,400), (640, 480), (0, 0, 0), -1)
