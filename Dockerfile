@@ -6,8 +6,6 @@ FROM ubi8/python-39
 LABEL maintainer="tbrunell@redhat.com"
 USER 0
 
-RUN rm -rf /app/*
-
 RUN yum -y install --nodocs opencv-core opencv-contrib  &&\
     yum clean all -y
 
