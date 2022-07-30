@@ -29,189 +29,192 @@ class salute(object):
         # For webcam input:
         self.cap = cv2.VideoCapture(-1, cv2.CAP_V4L) 
 
-
     def get_salute(self):   
-        
         with mp_holistic.Holistic(smooth_landmarks="true",min_detection_confidence=0.6,min_tracking_confidence=0.6) as holistic:
             ret, frame = self.cap.read()
 
-        # Recolor Feed
-            image = cv2.cvtColor(cv2.flip(frame, 1), cv2.COLOR_BGR2RGB)
-            image.flags.writeable = False        
+            while self.cap.isOpened():
+                # Recolor Feed
+                image = cv2.cvtColor(cv2.flip(frame, 1), cv2.COLOR_BGR2RGB)
+                image.flags.writeable = False
 
-        # Make Detections
-            image.flags.writeable = False
-            joints = holistic.process(image)
-        
-        # Draw the pose annotation on the image.
-            image.flags.writeable = True
-            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+                # Make Detections
+                image.flags.writeable = False
+                joints = holistic.process(image)
 
-        # Turn off distracting landmarks
-            if joints.pose_landmarks:
-            # Facial Landmarks
-                joints.pose_landmarks.landmark[0].visibility = 0
-                joints.pose_landmarks.landmark[1].visibility = 0
-                joints.pose_landmarks.landmark[2].visibility = 0
-                joints.pose_landmarks.landmark[3].visibility = 0
-                joints.pose_landmarks.landmark[4].visibility = 0
-                joints.pose_landmarks.landmark[5].visibility = 0
-                joints.pose_landmarks.landmark[6].visibility = 0
-                joints.pose_landmarks.landmark[7].visibility = 0
-                joints.pose_landmarks.landmark[8].visibility = 0
-                joints.pose_landmarks.landmark[9].visibility = 0
-                joints.pose_landmarks.landmark[10].visibility = 0
-            # Extra hand landmarks
-            #   joints.pose_landmarks.landmark[17].visibility = 0
-            #   joints.pose_landmarks.landmark[18].visibility = 0
-            #   joints.pose_landmarks.landmark[19].visibility = 0
-            #   joints.pose_landmarks.landmark[20].visibility = 0
-            #   joints.pose_landmarks.landmark[21].visibility = 0
-            #   joints.pose_landmarks.landmark[22].visibility = 0
+                # Draw the pose annotation on the image.
+                image.flags.writeable = True
+                image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-        # Draw face landmarks
-            mp_drawing.draw_landmarks(image, joints.face_landmarks, mp_holistic.FACEMESH_CONTOURS,
-                                  mp_drawing.DrawingSpec(color=(80,110,10), thickness=1, circle_radius=1),
-                                  mp_drawing.DrawingSpec(color=(80,256,121), thickness=1, circle_radius=1)
-                                 )
-        # Pose Detections
-            mp_drawing.draw_landmarks(image, joints.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
-                                  mp_drawing.DrawingSpec(color=(80,110,10), thickness=2, circle_radius=2),
-                                  mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
-                                 )
-        #Right hand
-        #   mp_drawing.draw_landmarks(image, joints.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
-        #                          mp_drawing.DrawingSpec(color=(80,110,10), thickness=2, circle_radius=2),
-        #                          mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
-        #                         )
-        # Left Hand
-        #   mp_drawing.draw_landmarks(image, joints.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
-        #                          mp_drawing.DrawingSpec(color=(80,110,10), thickness=2, circle_radius=2),
-        #                          mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
-        #                         )
+                # Turn off distracting landmarks
+                if joints.pose_landmarks:
+                    # Facial Landmarks
+                    joints.pose_landmarks.landmark[0].visibility = 0
+                    joints.pose_landmarks.landmark[1].visibility = 0
+                    joints.pose_landmarks.landmark[2].visibility = 0
+                    joints.pose_landmarks.landmark[3].visibility = 0
+                    joints.pose_landmarks.landmark[4].visibility = 0
+                    joints.pose_landmarks.landmark[5].visibility = 0
+                    joints.pose_landmarks.landmark[6].visibility = 0
+                    joints.pose_landmarks.landmark[7].visibility = 0
+                    joints.pose_landmarks.landmark[8].visibility = 0
+                    joints.pose_landmarks.landmark[9].visibility = 0
+                    joints.pose_landmarks.landmark[10].visibility = 0
 
-        # Grab pose landmarks
-            try:
-                pose = joints.pose_landmarks.landmark
-            except:
-                pass
+                    # Extra hand landmarks
+                    #  joints.pose_landmarks.landmark[17].visibility = 0
+                    #  joints.pose_landmarks.landmark[18].visibility = 0
+                    #  joints.pose_landmarks.landmark[19].visibility = 0
+                    #  joints.pose_landmarks.landmark[20].visibility = 0
+                    #  joints.pose_landmarks.landmark[21].visibility = 0
+                    #  joints.pose_landmarks.landmark[22].visibility = 0
 
-            try:
-                hand = joints.left_hand_landmarks.landmark
-            except:
-                pass
+                    # Draw face landmarks
+                    mp_drawing.draw_landmarks(image, joints.face_landmarks, mp_holistic.FACEMESH_CONTOURS,
+                                              mp_drawing.DrawingSpec(color=(80,110,10), thickness=1, circle_radius=1),
+                                              mp_drawing.DrawingSpec(color=(80,256,121), thickness=1, circle_radius=1)
+                                              )
 
-    # Test if upper arm is parallel to the ground (+- 5 degrees)
-            try:
-                pt1 = [pose[mp_holistic.PoseLandmark.LEFT_SHOULDER.value].x,pose[mp_holistic.PoseLandmark.LEFT_SHOULDER.value].y]
-                pt2 = [pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].y] 
-                
-                angle = self.calculate_angle(pt1,pt2)
-                
-                if angle >= 175 and angle <= 185:
-                    uparm = "GOOD"
-                else:
-                    uparm = "not parallel"
-            except:
-                uparm = ""
-                pass
+                    # Pose Detections
+                    mp_drawing.draw_landmarks(image, joints.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
+                                              mp_drawing.DrawingSpec(color=(80,110,10), thickness=2, circle_radius=2),
+                                              mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
+                                              )
 
-    # Test if forearm is at 45 degree angle (+- 5 degrees)
-            try:
-                pt1 = [pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].y]
-                pt2 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
+                    # Right hand
+                    # mp_drawing.draw_landmarks(image, joints.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
+                    #                           mp_drawing.DrawingSpec(color=(80,110,10), thickness=2, circle_radius=2),
+                    #                           mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
+                    #                           )
 
-                angle = self.calculate_angle(pt1,pt2)
-                forearm_angle = angle
+                    # Left Hand
+                    # mp_drawing.draw_landmarks(image, joints.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
+                    #                           mp_drawing.DrawingSpec(color=(80,110,10), thickness=2, circle_radius=2),
+                    #                           mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
+                    #                           )
 
-                if angle >= 40 and angle <= 50:
-                    forearm = "GOOD"
-                else:
-                    forearm = "not at 45"
-            except:
-                forearm = ""
-                pass
+                    # Grab pose landmarks
+                    try:
+                        pose = joints.pose_landmarks.landmark
+                    except:
+                        pass
 
-    # Test if hand is in line with the forearm (+-8  degrees)
-            try:
-                pt1 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
-                pt2 = [pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].x,pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].y]
+                    # try:
+                    #     hand = joints.left_hand_landmarks.landmark
+                    # except:
+                    #     pass
 
-                angle = self.calculate_angle(pt1,pt2)
+                    # Test if upper arm is parallel to the ground (+- 5 degrees)
+                    try:
+                        pt1 = [pose[mp_holistic.PoseLandmark.LEFT_SHOULDER.value].x,pose[mp_holistic.PoseLandmark.LEFT_SHOULDER.value].y]
+                        pt2 = [pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].y]
 
-                if angle >= (forearm_angle - 8) and angle <= (forearm_angle + 8):
-                    palm = "GOOD"
-                else:
-                    palm = "not in line"
-            except:
-                palm = ""
-                pass
-    
-    # Test for a flat hand (able to see palm)
-            try:
-                pt1 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
-                pt2 = [pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].x,pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].y]
+                        angle = self.calculate_angle(pt1,pt2)
 
-                angle = self.calculate_angle(pt1,pt2)
+                        if angle >= 175 and angle <= 185:
+                            uparm = "GOOD"
+                        else:
+                            uparm = "not parallel"
+                    except:
+                        uparm = ""
+                        pass
 
-                if angle >=40 and angle <= 69:
-                    flat = "GOOD"
-                else:
-                    flat = "not visible"
+                    # Test if forearm is at 45 degree angle (+- 5 degrees)
+                    try:
+                        pt1 = [pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].y]
+                        pt2 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
 
-            except:
-                flat = ""
-                pass
+                        angle = self.calculate_angle(pt1,pt2)
+                        forearm_angle = angle
 
-    # Test if fingers are straight
-    #       try:
-    #           pt1 = [hand[mp_holistic.HandLandmark.PINKY_MCP].x,hand[mp_holistic.HandLandmark.PINKY_MCP].y] 
-    #           pt2 = [hand[mp_holistic.HandLandmark.PINKY_TIP].x,hand[mp_holistic.HandLandmark.PINKY_TIP].y]
+                        if angle >= 40 and angle <= 50:
+                            forearm = "GOOD"
+                        else:
+                            forearm = "not at 45"
+                    except:
+                        forearm = ""
+                        pass
 
-    #           angle1 = salute.calculate_angle(pt1,pt2)
+                    # Test if hand is in line with the forearm (+-8  degrees)
+                    try:
+                        pt1 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
+                        pt2 = [pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].x,pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].y]
 
-    #           pt1 = [hand[mp_holistic.HandLandmark.THUMB_MCP].x,hand[mp_holistic.HandLandmark.THUMB_MCP].y] 
-    #           pt2 = [hand[mp_holistic.HandLandmark.THUMB_MCP].x,hand[mp_holistic.HandLandmark.RING_FINGER_TIP].y]
+                        angle = self.calculate_angle(pt1,pt2)
 
-    #           angle2 = salute.calculate_angle(pt1,pt2)
+                        if angle >= (forearm_angle - 8) and angle <= (forearm_angle + 8):
+                            palm = "GOOD"
+                        else:
+                            palm = "not in line"
+                    except:
+                        palm = ""
+                        pass
 
-    #           if angle1 >=40 and angle1 <= 50: 
-    #               fingers = "GOOD"
-    #               if angle2 < 40 or angle2 > 50:
-    #                   fingers = "not straight 2:{}".format(angle2)
-    #               else:
-    #                   fingers = "not straight 1:{}".format(angle1)
+                    # Test for a flat hand (able to see palm)
+                    try:
+                        pt1 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
+                        pt2 = [pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].x,pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].y]
 
-    #       except:
-    #           pass
-    
-        # Scoring box
+                        angle = self.calculate_angle(pt1,pt2)
 
-            cv2.rectangle(image, (0,400), (640, 480), (0, 0, 0), -1)
+                        if angle >=40 and angle <= 69:
+                            flat = "GOOD"
+                        else:
+                            flat = "not visible"
 
-        # Display Class
-            cv2.putText(image, 'HOW IS MY SALUTE?', (5,420), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
-            cv2.putText(image, 'Upper Arm:', (5,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-            cv2.putText(image, 'Fore Arm :', (5,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-            cv2.putText(image, 'Hand in Line:', (325,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-            cv2.putText(image, 'Palm Flat:', (325,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-     #      cv2.putText(image, 'Fingers:', (325,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                    except:
+                        flat = ""
+                        pass
 
-        # Display Probability
-            cv2.putText(image, uparm, (110,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
-            cv2.putText(image, forearm, (110,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
-            cv2.putText(image, palm, (430,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
-            cv2.putText(image, flat, (430,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
-     #      cv2.putText(image, fingers, (430,420), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+                    # Test if fingers are straight
+                    # try:
+                    #     pt1 = [hand[mp_holistic.HandLandmark.PINKY_MCP].x,hand[mp_holistic.HandLandmark.PINKY_MCP].y]
+                    #     pt2 = [hand[mp_holistic.HandLandmark.PINKY_TIP].x,hand[mp_holistic.HandLandmark.PINKY_TIP].y]
 
-        # Show the image
-        # cv2.imshow('MediaPipe Pose', image)
+                    #     angle1 = salute.calculate_angle(pt1,pt2)
 
-        #if cv2.waitKey(10) & 0xFF == ord(' '):
-        #    break
+                    #     pt1 = [hand[mp_holistic.HandLandmark.THUMB_MCP].x,hand[mp_holistic.HandLandmark.THUMB_MCP].y]
+                    #     pt2 = [hand[mp_holistic.HandLandmark.THUMB_MCP].x,hand[mp_holistic.HandLandmark.RING_FINGER_TIP].y]
 
-            ret, jpeg = cv2.imencode(".jpg", image)
-            return jpeg.tobytes()
+                    #     angle2 = salute.calculate_angle(pt1,pt2)
+
+                    #     if angle1 >=40 and angle1 <= 50:
+                    #         fingers = "GOOD"
+                    #         if angle2 < 40 or angle2 > 50:
+                    #             fingers = "not straight 2:{}".format(angle2)
+                    #     else:
+                    #         fingers = "not straight 1:{}".format(angle1)
+
+                    # except:
+                    #     fingers = ""
+                    #     pass
+
+                    # Scoring box
+                    cv2.rectangle(image, (0,400), (640, 480), (0, 0, 0), -1)
+
+                    # Display Part
+                    cv2.putText(image, 'HOW IS MY SALUTE?', (5,420), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+                    cv2.putText(image, 'Upper Arm:', (5,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                    cv2.putText(image, 'Fore Arm :', (5,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                    cv2.putText(image, 'Hand in Line:', (325,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                    cv2.putText(image, 'Palm Flat:', (325,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                    # cv2.putText(image, 'Fingers:', (325,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+
+                    # Display Score
+                    cv2.putText(image, uparm, (110,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+                    cv2.putText(image, forearm, (110,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+                    cv2.putText(image, palm, (430,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+                    cv2.putText(image, flat, (430,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+                    # cv2.putText(image, fingers, (430,420), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+
+                    # Show the image
+                    # cv2.imshow('image', image)
+
+                    # if cv2.waitKey(10) & 0xFF == ord(' '):
+                    #    break
+
+                    ret, jpeg = cv2.imencode(".jpg", image)
+                    return jpeg.tobytes()
 
     def __del__(self):
         self.cap.release()
