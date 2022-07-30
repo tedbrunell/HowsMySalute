@@ -52,7 +52,7 @@ $ podman run -d --name howsmysalute --security-opt label=disable --device /dev/v
 
 Note that the ```--security-opt label=disable``` option is only needed to keep SELinux from blocking access to the webcam from the container.
 
-The SELinux Boolean "container_use_devices" may have to be set to a value of '1' to allow the container to access the camera.
+The SELinux Boolean ```container_use_devices``` may have to be set to a value of '1' to allow the container to access the camera.
 
 Open a browser to ```http://localhost:8080``` to see the mirrored image of yourself.  See if you can hold the salute for 3-5 seconds.
 
