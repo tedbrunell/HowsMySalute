@@ -56,4 +56,4 @@ The SELinux Boolean ```container_use_devices``` may have to be set to a value of
 
 Open a browser to ```http://localhost:8080``` to see the mirrored image of yourself.  See if you can hold the salute for 3-5 seconds.
 
-If you are going to accessw this over the network, make sure that port 8080 is open on the firewall.
+If you are going to access this over the network, make sure that port 8080 is open on the firewall.
