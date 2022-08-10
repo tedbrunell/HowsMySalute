@@ -36,7 +36,7 @@ class salute(object):
             while self.cap.isOpened():
             
                 # Recolor Feed and flip the image
-                image = cv2.cvtColor(cv2.flip(frame, 1), cv2.COLOR_BGR2RGB)
+                image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 image.flags.writeable = False
 
                 # Make Detections
@@ -85,14 +85,14 @@ class salute(object):
                                           mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
                                           )
 
-                # LEFT hand
-                # mp_drawing.draw_landmarks(image, joints.LEFT_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
+                # RIGHT hand
+                # mp_drawing.draw_landmarks(image, joints.RIGHT_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
                 #                           mp_drawing.DrawingSpec(color=(80,110,10), thickness=2, circle_radius=2),
                 #                           mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
                 #                           )
 
-                # Left Hand
-                # mp_drawing.draw_landmarks(image, joints.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
+                # Right Hand
+                # mp_drawing.draw_landmarks(image, joints.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
                 #                           mp_drawing.DrawingSpec(color=(80,110,10), thickness=2, circle_radius=2),
                 #                           mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
                 #                           )
@@ -104,18 +104,18 @@ class salute(object):
                     pass
 
                 # try:
-                #     hand = joints.left_hand_landmarks.landmark
+                #     hand = joints.right_hand_landmarks.landmark
                 # except:
                 #     pass
 
                 # Test if upper arm is parallel to the ground (+- 5 degrees)
                 try:
-                    pt1 = [pose[mp_holistic.PoseLandmark.LEFT_SHOULDER.value].x,pose[mp_holistic.PoseLandmark.LEFT_SHOULDER.value].y]
-                    pt2 = [pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].y]
+                    pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].x,pose[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y]
+                    pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y]
 
                     angle = self.calculate_angle(pt1,pt2)
 
-                    if angle >= 175 and angle <= 185:
+                    if angle <= 5:
                         uparm = "GOOD"
                     else:
                         uparm = "not parallel"
@@ -125,13 +125,13 @@ class salute(object):
 
                 # Test if forearm is at 45 degree angle (+- 5 degrees)
                 try:
-                    pt1 = [pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.LEFT_ELBOW.value].y]
-                    pt2 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
+                    pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y]
+                    pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y]
 
                     angle = self.calculate_angle(pt1,pt2)
                     forearm_angle = angle
 
-                    if angle >= 40 and angle <= 50:
+                    if angle >= 130 and angle <= 140:
                         forearm = "GOOD"
                     else:
                         forearm = "not at 45"
@@ -141,8 +141,8 @@ class salute(object):
 
                 # Test if hand is in line with the forearm (+-8  degrees)
                 try:
-                    pt1 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
-                    pt2 = [pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].x,pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].y]
+                    pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y]
+                    pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].x,pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].y]
 
                     angle = self.calculate_angle(pt1,pt2)
 
@@ -156,12 +156,12 @@ class salute(object):
 
                 # Test for a flat hand (able to see palm)
                 try:
-                    pt1 = [pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].x,pose[mp_holistic.PoseLandmark.LEFT_WRIST.value].y]
-                    pt2 = [pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].x,pose[mp_holistic.PoseLandmark.LEFT_PINKY.value].y]
+                    pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y]
+                    pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].x,pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].y]
 
                     angle = self.calculate_angle(pt1,pt2)
 
-                    if angle >=40 and angle <= 69:
+                    if angle >=130 and angle <= 140:
                         flat = "GOOD"
                     else:
                         flat = "not visible"
@@ -193,7 +193,9 @@ class salute(object):
                 # except:
                 #     fingers = ""
                 #     pass
-                   
+
+                #Flip the image
+                image = cv2.flip(image, 1)
                 
                 # Scoring box
                 cv2.rectangle(image, (0,400), (640, 480), (0, 0, 0), -1)
@@ -209,8 +211,8 @@ class salute(object):
                 # Display Score
                 cv2.putText(image, uparm, (110,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
                 cv2.putText(image, forearm, (110,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
-                cv2.putText(image, palm, (430,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
-                cv2.putText(image, flat, (430,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+                cv2.putText(image, palm, (435,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+                cv2.putText(image, flat, (435,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
                 # cv2.putText(image, fingers, (430,420), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
 
                 # Show the image
