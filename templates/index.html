@@ -45,12 +45,12 @@
         <img src="{{ url_for('video_feed') }}">
       </div>
       <div class="grid-text">
-    	<p>This is a simple computer vision program to try to determine if someone's "salute" meets U.S. Marine Corps standards. Marine Corps Order (MCO) 5060.20 covers the requirements for a proper salute.</p>
+    	<p>This is a simple computer vision program to try to determine if someone's "salute" meets U.S. Army standards. Army TC3-21.5 covers the requirements for a proper salute.</p>
 
-    	<p> From MCO 5060.20:</p>
+    	<p> From Army TC 3-21.5:</p>
 
     	<pre>
-    	When "SALUTE" is given, raise your right hand smartly in the most 
+	When "SALUTE" is given, raise your right hand smartly in the most 
 	direct manner until the tip of your forefinger touches the lower 
 	part of the headdress above and slightly right of your right eye. 
 	Your fingers should be extended straight and joined with the 
@@ -61,14 +61,14 @@
 	continuation of the line made by your forearm. At the same time, if 
 	not in ranks, turn your head and eyes toward the person or colors 
 	you are saluting.</pre>
-
+  
     	<p>This script attempts to track your joints and body parts to determine if you meet the requirement:</p>
 
     	<ul>
-	    <li>Upper Arm is parallel to the deck</li>
+	    <li>Upper Arm is parallel to the ground</li>
 	    <li>Forearm is at a 45 degree angle</li>
 	    <li>Wrist and hand are in-line with the forearm</li>
-	    <li>Palm is visible to you</li>
+	    <li>Palm is not visible</li>
     	</ul>
       </div>
     </div>
