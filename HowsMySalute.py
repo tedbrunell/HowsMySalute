@@ -30,7 +30,7 @@ class salute(object):
         self.cap = cv2.VideoCapture(-1, cv2.CAP_V4L) 
 
     def get_salute(self):   
-        with mp_holistic.Holistic(smooth_landmarks="true",min_detection_confidence=0.6,min_tracking_confidence=0.6) as holistic:
+        with mp_holistic.Holistic(model_complexity=0,smooth_landmarks="true",min_detection_confidence=0.6,min_tracking_confidence=0.6) as holistic:
             ret, frame = self.cap.read()
 
             while self.cap.isOpened():
@@ -53,17 +53,17 @@ class salute(object):
                 if joints.pose_landmarks:
                 
                     # Facial Landmarks
-                    joints.pose_landmarks.landmark[0].visibility = 0
+                    # joints.pose_landmarks.landmark[0].visibility = 0
                     joints.pose_landmarks.landmark[1].visibility = 0
-                    joints.pose_landmarks.landmark[2].visibility = 0
+                    # joints.pose_landmarks.landmark[2].visibility = 0
                     joints.pose_landmarks.landmark[3].visibility = 0
                     joints.pose_landmarks.landmark[4].visibility = 0
-                    joints.pose_landmarks.landmark[5].visibility = 0
+                    # joints.pose_landmarks.landmark[5].visibility = 0
                     joints.pose_landmarks.landmark[6].visibility = 0
-                    joints.pose_landmarks.landmark[7].visibility = 0
-                    joints.pose_landmarks.landmark[8].visibility = 0
-                    joints.pose_landmarks.landmark[9].visibility = 0
-                    joints.pose_landmarks.landmark[10].visibility = 0
+                    # joints.pose_landmarks.landmark[7].visibility = 0
+                    # joints.pose_landmarks.landmark[8].visibility = 0
+                    # joints.pose_landmarks.landmark[9].visibility = 0
+                    # joints.pose_landmarks.landmark[10].visibility = 0
 
                     # Extra hand landmarks
                     #  joints.pose_landmarks.landmark[17].visibility = 0
@@ -74,10 +74,10 @@ class salute(object):
                     #  joints.pose_landmarks.landmark[22].visibility = 0
 
                     # Draw face landmarks
-                mp_drawing.draw_landmarks(image, joints.face_landmarks, mp_holistic.FACEMESH_CONTOURS,
-                                          mp_drawing.DrawingSpec(color=(80,110,10), thickness=1, circle_radius=1),
-                                          mp_drawing.DrawingSpec(color=(80,256,121), thickness=1, circle_radius=1)
-                                          )
+                # mp_drawing.draw_landmarks(image, joints.face_landmarks, mp_holistic.FACEMESH_CONTOURS,
+                #                          mp_drawing.DrawingSpec(color=(80,110,10), thickness=1, circle_radius=1),
+                #                          mp_drawing.DrawingSpec(color=(80,256,121), thickness=1, circle_radius=1)
+                #                          )
 
                 # Pose Detections
                 mp_drawing.draw_landmarks(image, joints.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
