@@ -8,7 +8,7 @@ import mediapipe as mp
 import numpy as np
 
 mp_drawing = mp.solutions.drawing_utils
-mp_holistic = mp.solutions.holistic
+mp_pose = mp.solutions.pose
 from matplotlib import pyplot as plt
 
 class salute(object):
@@ -30,7 +30,7 @@ class salute(object):
         self.cap = cv2.VideoCapture(-1, cv2.CAP_V4L) 
 
     def get_salute(self):   
-        with mp_holistic.Holistic(model_complexity=0,smooth_landmarks="true",min_detection_confidence=0.6,min_tracking_confidence=0.6) as holistic:
+        with mp_pose.Pose(model_complexity=0,smooth_landmarks="true",min_detection_confidence=0.6,min_tracking_confidence=0.6) as pose:
             ret, frame = self.cap.read()
 
             while self.cap.isOpened():
@@ -41,7 +41,7 @@ class salute(object):
 
                 # Make Detections
                 image.flags.writeable = False
-                joints = holistic.process(image)
+                joints = pose.process(image)
 
                 # Draw the pose annotation on the image.
                 image.flags.writeable = True
@@ -74,25 +74,25 @@ class salute(object):
                     #  joints.pose_landmarks.landmark[22].visibility = 0
 
                     # Draw face landmarks
-                # mp_drawing.draw_landmarks(image, joints.face_landmarks, mp_holistic.FACEMESH_CONTOURS,
+                # mp_drawing.draw_landmarks(image, joints.face_landmarks, mp_pose.FACEMESH_CONTOURS,
                 #                          mp_drawing.DrawingSpec(color=(80,110,10), thickness=1, circle_radius=1),
                 #                          mp_drawing.DrawingSpec(color=(80,256,121), thickness=1, circle_radius=1)
                 #                          )
 
                 # Pose Detections
-                mp_drawing.draw_landmarks(image, joints.pose_landmarks, mp_holistic.POSE_CONNECTIONS,
+                mp_drawing.draw_landmarks(image, joints.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                                           mp_drawing.DrawingSpec(color=(80,110,10), thickness=2, circle_radius=2),
                                           mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
                                           )
 
                 # RIGHT hand
-                # mp_drawing.draw_landmarks(image, joints.RIGHT_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
+                # mp_drawing.draw_landmarks(image, joints.RIGHT_hand_landmarks, mp_pose.HAND_CONNECTIONS,
                 #                           mp_drawing.DrawingSpec(color=(80,110,10), thickness=2, circle_radius=2),
                 #                           mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
                 #                           )
 
                 # Right Hand
-                # mp_drawing.draw_landmarks(image, joints.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS,
+                # mp_drawing.draw_landmarks(image, joints.right_hand_landmarks, mp_pose.HAND_CONNECTIONS,
                 #                           mp_drawing.DrawingSpec(color=(80,110,10), thickness=2, circle_radius=2),
                 #                           mp_drawing.DrawingSpec(color=(80,256,121), thickness=2, circle_radius=2)
                 #                           )
@@ -110,8 +110,8 @@ class salute(object):
 
                 # Test if upper arm is parallel to the ground (+- 5 degrees)
                 try:
-                    pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].x,pose[mp_holistic.PoseLandmark.RIGHT_SHOULDER.value].y]
-                    pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y]
+                    pt1 = [pose[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,pose[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
+                    pt2 = [pose[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,pose[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
 
                     angle = self.calculate_angle(pt1,pt2)
 
@@ -125,8 +125,8 @@ class salute(object):
 
                 # Test if forearm is at 45 degree angle (+- 5 degrees)
                 try:
-                    pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].x,pose[mp_holistic.PoseLandmark.RIGHT_ELBOW.value].y]
-                    pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y]
+                    pt1 = [pose[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,pose[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
+                    pt2 = [pose[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
 
                     angle = self.calculate_angle(pt1,pt2)
                     forearm_angle = angle
@@ -141,8 +141,8 @@ class salute(object):
 
                 # Test if hand is in line with the forearm (+-8  degrees)
                 try:
-                    pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y]
-                    pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].x,pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].y]
+                    pt1 = [pose[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
+                    pt2 = [pose[mp_pose.PoseLandmark.RIGHT_PINKY.value].x,pose[mp_pose.PoseLandmark.RIGHT_PINKY.value].y]
 
                     angle = self.calculate_angle(pt1,pt2)
 
@@ -156,8 +156,8 @@ class salute(object):
 
                 # Test for a flat hand (able to see palm)
                 try:
-                    pt1 = [pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_holistic.PoseLandmark.RIGHT_WRIST.value].y]
-                    pt2 = [pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].x,pose[mp_holistic.PoseLandmark.RIGHT_PINKY.value].y]
+                    pt1 = [pose[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,pose[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
+                    pt2 = [pose[mp_pose.PoseLandmark.RIGHT_PINKY.value].x,pose[mp_pose.PoseLandmark.RIGHT_PINKY.value].y]
 
                     angle = self.calculate_angle(pt1,pt2)
 
@@ -172,13 +172,13 @@ class salute(object):
 
                 # Test if fingers are straight
                 # try:
-                #     pt1 = [hand[mp_holistic.HandLandmark.PINKY_MCP].x,hand[mp_holistic.HandLandmark.PINKY_MCP].y]
-                #     pt2 = [hand[mp_holistic.HandLandmark.PINKY_TIP].x,hand[mp_holistic.HandLandmark.PINKY_TIP].y]
+                #     pt1 = [hand[mp_pose.HandLandmark.PINKY_MCP].x,hand[mp_pose.HandLandmark.PINKY_MCP].y]
+                #     pt2 = [hand[mp_pose.HandLandmark.PINKY_TIP].x,hand[mp_pose.HandLandmark.PINKY_TIP].y]
 
                 #     angle1 = salute.calculate_angle(pt1,pt2)
 
-                #     pt1 = [hand[mp_holistic.HandLandmark.THUMB_MCP].x,hand[mp_holistic.HandLandmark.THUMB_MCP].y]
-                #     pt2 = [hand[mp_holistic.HandLandmark.THUMB_MCP].x,hand[mp_holistic.HandLandmark.RING_FINGER_TIP].y]
+                #     pt1 = [hand[mp_pose.HandLandmark.THUMB_MCP].x,hand[mp_pose.HandLandmark.THUMB_MCP].y]
+                #     pt2 = [hand[mp_pose.HandLandmark.THUMB_MCP].x,hand[mp_pose.HandLandmark.RING_FINGER_TIP].y]
 
                 #     angle2 = salute.calculate_angle(pt1,pt2)
 
