@@ -30,7 +30,7 @@ class salute(object):
         self.cap = cv2.VideoCapture(-1, cv2.CAP_V4L) 
 
     def get_salute(self):   
-        with mp_pose.Pose(model_complexity=0,smooth_landmarks="true",min_detection_confidence=0.6,min_tracking_confidence=0.6) as pose:
+        with mp_pose.Pose(model_complexity=1,smooth_landmarks="true",min_detection_confidence=0.6,min_tracking_confidence=0.6) as pose:
             ret, frame = self.cap.read()
 
             while self.cap.isOpened():
