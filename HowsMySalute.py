@@ -149,7 +149,7 @@ class salute(object):
                 cv2.rectangle(image, (0,400), (640, 480), (0, 0, 0), -1)
 
                 # Display Part
-                cv2.putText(image, 'HOW IS MY SALUTE?', (5,420), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+                cv2.putText(image, 'HOW IS YOUR SALUTE?', (5,420), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
                 cv2.putText(image, 'Upper Arm:', (5,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
                 cv2.putText(image, 'Fore Arm :', (5,460), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
                 cv2.putText(image, 'Hand in Line:', (325,440), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
