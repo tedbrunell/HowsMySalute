@@ -4,10 +4,11 @@
     <style>
   body {
       background-color: #2d2d2d;
+      box-sizing: border-box;
       }
   .grid-container {
       display: grid;
-      grid-template-columns: 40% auto;
+      grid-template-columns: 45% auto;
       column-gap: .5vmin;
       }
   .grid-title {
@@ -27,7 +28,7 @@
       position: relative;
       }
 	.grid-text {
-      font-size: 2.9vmin;
+      font-size: 3vmin;
       color: white;
       font-family: arial;
       background-image: url("/static/graphics/usmc.png");
@@ -35,7 +36,7 @@
       background-repeat: no-repeat;
       background-size: contain;
       position: relative;
-      margin-right: 1vw;
+      margin-right: 3vw;
       grid-row-start: 2;
       grid-row-end: 4;
       grid-column-start: 2;
@@ -43,20 +44,27 @@
       }
 	.grid-video {
       display: grid;
+      height: 28vw;
+      padding: 0;
+      margin: 0;
       align-items: center;
       justify-content: center;
       }
   .grid-logo {
-      height: 15vmin;
+      height: 10vmin;
+      margin-top: 15vm;
       background-image: url("/static/graphics/RedHatLogo.svg");
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
       position: relative;
       }
-  pre {
-      font-size: 2.4vmin;
+  .quote {
+      font-size: 2.5vmin;
+      font-family: "Lucida Console", "Courier New", monospace;
       color: white;
+      margin-left: 1vw;
+      margin-right: 2vw;
       }
 
   </style>
@@ -67,25 +75,16 @@
         How's Your Salute?
       </div>
       <div class="grid-video">
-        <img src="{{ url_for('video_feed') }}" style="width:100%;height:100%;object-fill:contain"></img>
+        <img src="{{ url_for('video_feed') }}" style="width:100%;height:100%;object-fit:contain"></img>
       </div>
       <div class="grid-text">
     	<p>This is a simple computer vision program to try to determine if someone's "salute" meets U.S. Marine Corps standards. Marine Corps Order (MCO) 5060.20 covers the requirements for a proper salute.</p>
 
     	<p> From MCO 5060.20:</p>
 
-    	<pre>
-    	When "SALUTE" is given, raise your right hand smartly in the most 
-	direct manner until the tip of your forefinger touches the lower 
-	part of the headdress above and slightly right of your right eye. 
-	Your fingers should be extended straight and joined with the 
-	thumb along the forefinger. You should be able to see your entire 
-	palm when looking straight ahead. Your upper arm should be parallel 
-	with the deck with the elbow inline with the body and your forearm 
-	at a 45-degree angle.  Your wrist and hand should be straight, a 
-	continuation of the line made by your forearm. At the same time, if 
-	not in ranks, turn your head and eyes toward the person or colors 
-	you are saluting.</pre>
+    	<div class="quote">
+    	  When "SALUTE" is given, raise your right hand smartly in the most direct manner until the tip of your forefinger touches the lower part of the headdress above and slightly right of your right eye.  Your fingers should be extended straight and joined with the thumb along the forefinger. You should be able to see your entire palm when looking straight ahead. Your upper arm should be parallel with the deck with the elbow inline with the body and your forearm at a 45-degree angle.  Your wrist and hand should be straight, a continuation of the line made by your forearm. At the same time, if not in ranks, turn your head and eyes toward the person or colors you are saluting.
+    	</div>
 
     	<p>This script attempts to track your joints and body parts to determine if you meet the requirement:</p>
 
