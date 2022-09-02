@@ -7,7 +7,7 @@
       }
   .grid-container {
       display: grid;
-      grid-template-columns: 700px auto;
+      grid-template-columns: 40% auto;
       column-gap: .5vmin;
       }
   .grid-title {
@@ -26,14 +26,8 @@
       background-size: cover;
       position: relative;
       }
-
-	.grid-video {
-      display: grid;
-      align-items: center;
-      justify-content: center;
-      }
 	.grid-text {
-      font-size: 3vmin;
+      font-size: 2.9vmin;
       color: white;
       font-family: arial;
       background-image: url("/static/graphics/usmc.png");
@@ -41,16 +35,27 @@
       background-repeat: no-repeat;
       background-size: contain;
       position: relative;
+      margin-right: 1vw;
+      grid-row-start: 2;
+      grid-row-end: 4;
+      grid-column-start: 2;
+      grid-column-end: 3;
       }
-  .logo {
-      max-width: 35%;
-      height: auto;
-      margin-top: 1vmin;
-      margin-left: auto;
-      margin-right: auto;
+	.grid-video {
+      display: grid;
+      align-items: center;
+      justify-content: center;
+      }
+  .grid-logo {
+      height: 15vmin;
+      background-image: url("/static/graphics/RedHatLogo.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      position: relative;
       }
   pre {
-      font-size: 2.5vmin;
+      font-size: 2.4vmin;
       color: white;
       }
 
@@ -62,8 +67,7 @@
         How's Your Salute?
       </div>
       <div class="grid-video">
-        <img src="{{ url_for('video_feed') }}">
-        <img class="logo" src="/static/graphics/RedHatLogo.svg">
+        <img src="{{ url_for('video_feed') }}" style="width:95%;height:95%'object-fill:fit"></img>
       </div>
       <div class="grid-text">
     	<p>This is a simple computer vision program to try to determine if someone's "salute" meets U.S. Marine Corps standards. Marine Corps Order (MCO) 5060.20 covers the requirements for a proper salute.</p>
@@ -91,6 +95,8 @@
 	    <li>Wrist and hand are in-line with the forearm</li>
 	    <li>Palm is visible to you</li>
     	</ul>
+      </div>
+      <div class="grid-logo">
       </div>
     </div>
   </body>
