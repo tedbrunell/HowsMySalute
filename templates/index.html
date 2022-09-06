@@ -31,7 +31,7 @@
       font-size: 3vmin;
       color: white;
       font-family: arial;
-      background-image: url("/static/graphics/usmc.png");
+      background-image: url("/static/graphics/usaf.png");
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
@@ -78,21 +78,21 @@
         <img src="{{ url_for('video_feed') }}" style="width:100%;height:100%;object-fit:contain"></img>
       </div>
       <div class="grid-text">
-    	<p><b>Does your salute meets U.S. Marine Corps standards?</b></p>
+    	<p><b>Does your salute meets U.S. Air Force standards?</b></p>
 
-    	<p>Marine Corps Order (MCO) 5060.20 describes the hand salute drill movement as follows.</p>
+    	<p>U.S. Air Force Manual 36-2203 describes the hand salute drill movement as follows.</p>
 
     	<div class="quote">
-    	  When "SALUTE" is given, raise your right hand smartly in the most direct manner until the tip of your forefinger touches the lower part of the headdress above and slightly right of your right eye.  Your fingers should be extended straight and joined with the thumb along the forefinger. You should be able to see your entire palm when looking straight ahead. Your upper arm should be parallel with the deck with the elbow inline with the body and your forearm at a 45-degree angle.  Your wrist and hand should be straight, a continuation of the line made by your forearm. At the same time, if not in ranks, turn your head and eyes toward the person or colors you are saluting.
+    	  On the command SALUTE, the individual raises the right hand smartly in the most direct manner while at the same time extending and joining the fingers. Keep the palm flat and facing the body. Place the thumb along the forefingers, keeping the palm flat and forming a straight line between the fingertips and elbows. Tilt the palm slightly toward the face. Hold the upper arm horizontal, slightly forward of the body and parallel to the ground. Ensure the tip of the middle finger touches the right front corner of the headdress. If wearing a non-billed hat, ensure the middle finger touches the outside corner of the right eyebrow or the front corner of glasses.
     	</div>
 
     	<p>This computer vision program will grade you on the following aspects of the hand salute.  Can you get a good grade in all of them?</p>
 
     	<ul>
-	    <li>Upper Arm is parallel to the ground</li>
-	    <li>Forearm is at a 45 degree angle</li>
-	    <li>Wrist and hand are in-line with the forearm</li>
-	    <li>Palm is not visible</li>
+	    <li>Upper Arm is horizontal</li>
+	    <li>Forearm is at a 45 degree so the middle fingertip touching the headress/eyebrow</li>
+	    <li>Fingertips and elbows are in a straight line</li>
+	    <li>Palm is slightly tilted</li>
     	</ul>
       </div>
       <div class="grid-logo">
