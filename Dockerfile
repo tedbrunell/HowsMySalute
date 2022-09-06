@@ -22,5 +22,6 @@ EXPOSE 8080
 COPY app.py /app
 COPY HowsMySalute.py /app
 COPY templates/ /app/templates/
+COPY graphics/ /app/static/graphics/
 
 CMD ["python3","app.py"]
