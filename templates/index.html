@@ -2,67 +2,91 @@
   <head>
     <title>How Is Your Salute?</title>
     <style>
-        .grid-container {
-		display: grid;
-		grid-template-columns: 700px 1000px;
-		width: 1800px;
-		margin-left: auto;
-		margin-right: auto;
-		justify-content: space-evenly;
-		justify-items: center;
-		align-content: space-evenly;
-		align-content: center;
-	}
-	.grid-video {
-		width: 700px;
-	}
+  body {
+      background-color: #2d2d2d;
+      box-sizing: border-box;
+      }
+  .grid-container {
+      display: grid;
+      grid-template-columns: 45% auto;
+      column-gap: .5vmin;
+      }
+  .grid-title {
+      color: white;
+      font-family: arial;
+      font-size: 6vmin;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 1px 1px 2px black, 0 0 3px black, 0 0 10px black;
+      padding: 1vw 0;
+      grid-column-start: 1;
+      grid-column-end: 3;
+      background-image: url("/static/graphics/banner.jpg");
+      background-position: left;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+      }
 	.grid-text {
-		width: 900px;
-	}
-        h1   {
-		color: red;
-		font-family: arial;
-		margin-top: 30px;
-	  }
+      font-size: 3vmin;
+      color: white;
+      font-family: arial;
+      background-image: url("/static/graphics/usmc.png");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      position: relative;
+      margin-right: 3vw;
+      grid-row-start: 2;
+      grid-row-end: 4;
+      grid-column-start: 2;
+      grid-column-end: 3;
+      }
+	.grid-video {
+      display: grid;
+      height: 28vw;
+      padding: 0;
+      margin: 0;
+      align-items: center;
+      justify-content: center;
+      }
+  .grid-logo {
+      height: 10vmin;
+      margin-top: 15vm;
+      background-image: url("/static/graphics/RedHatLogo.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      position: relative;
+      }
+  .quote {
+      font-size: 2.5vmin;
+      font-family: "Lucida Console", "Courier New", monospace;
+      color: white;
+      margin-left: 1vw;
+      margin-right: 2vw;
+      }
 
-	p,ul {
-		color: black;
-		font-size: 24px;
-		font-family: arial;
-	  }
-	pre  {
-		display: block;
-		color: black;
-		font-size: 18px;
-		font-family: monospace;
-	 }
-    </style>
+  </style>
   </head>
   <body>
-    <h1 align="center" font="arial">How Is Your Salute?</h1>
     <div class="grid-container">
+      <div class="grid-title">
+        How's Your Salute?
+      </div>
       <div class="grid-video">
-        <img src="{{ url_for('video_feed') }}">
+        <img src="{{ url_for('video_feed') }}" style="width:100%;height:100%;object-fit:contain"></img>
       </div>
       <div class="grid-text">
-    	<p>This is a simple computer vision program to try to determine if someone's "salute" meets U.S. Army standards. Army TC3-21.5 covers the requirements for a proper salute.</p>
+    	<p><b>Does your salute meets U.S. Marine Corps standards?</b></p>
 
-    	<p> From Army TC 3-21.5:</p>
+    	<p>Marine Corps Order (MCO) 5060.20 describes the hand salute drill movement as follows.</p>
 
-    	<pre>
-	When "SALUTE" is given, raise your right hand smartly in the most 
-	direct manner until the tip of your forefinger touches the lower 
-	part of the headdress above and slightly right of your right eye. 
-	Your fingers should be extended straight and joined with the 
-	thumb along the forefinger. You should be able to see your entire 
-	palm when looking straight ahead. Your upper arm should be parallel 
-	with the deck with the elbow inline with the body and your forearm 
-	at a 45-degree angle.  Your wrist and hand should be straight, a 
-	continuation of the line made by your forearm. At the same time, if 
-	not in ranks, turn your head and eyes toward the person or colors 
-	you are saluting.</pre>
-  
-    	<p>This script attempts to track your joints and body parts to determine if you meet the requirement:</p>
+    	<div class="quote">
+    	  When "SALUTE" is given, raise your right hand smartly in the most direct manner until the tip of your forefinger touches the lower part of the headdress above and slightly right of your right eye.  Your fingers should be extended straight and joined with the thumb along the forefinger. You should be able to see your entire palm when looking straight ahead. Your upper arm should be parallel with the deck with the elbow inline with the body and your forearm at a 45-degree angle.  Your wrist and hand should be straight, a continuation of the line made by your forearm. At the same time, if not in ranks, turn your head and eyes toward the person or colors you are saluting.
+    	</div>
+
+    	<p>This computer vision program will grade you on the following aspects of the hand salute.  Can you get a good grade in all of them?</p>
 
     	<ul>
 	    <li>Upper Arm is parallel to the ground</li>
@@ -70,6 +94,8 @@
 	    <li>Wrist and hand are in-line with the forearm</li>
 	    <li>Palm is not visible</li>
     	</ul>
+      </div>
+      <div class="grid-logo">
       </div>
     </div>
   </body>
