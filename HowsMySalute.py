@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# Number of seconds to hold good salute score
+PAUSE_FOR_GOOD_SALUTE = 1
+
 # Import Libraries
 
 import cv2
 import mediapipe as mp
 import numpy as np
+from datetime import datetime, timedelta
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
@@ -26,6 +30,12 @@ class salute(object):
         return angle
 
     def __init__(self):
+        # End time for holding good salute score
+        self.cacheImageUntil = datetime.now()
+
+        # Cached good salute image is empty
+        self.cacheImage = b''
+
         # For webcam input:
         self.cap = cv2.VideoCapture(-1, cv2.CAP_V4L) 
 
@@ -145,8 +155,10 @@ class salute(object):
                 #Flip the image
                 image = cv2.flip(image, 1)
                 
+                allgood = uparm=="GOOD" and forearm=="GOOD" and palm=="GOOD" and flat=="GOOD"
+
                 # Scoring box
-                if uparm=="GOOD" and forearm=="GOOD" and palm=="GOOD" and flat=="GOOD":
+                if allgood:
                     cv2.rectangle(image, (0,400), (640, 480), (95, 137, 76), -1)
                 else:
                     cv2.rectangle(image, (0,400), (640, 480), (45, 45, 45), -1)
@@ -165,7 +177,15 @@ class salute(object):
                 cv2.putText(image, flat, (435,460), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
                 ret, jpeg = cv2.imencode(".jpg", image)
-                return jpeg.tobytes()
+
+                if allgood:
+                    self.cacheImageUntil = datetime.now() + timedelta(seconds = PAUSE_FOR_GOOD_SALUTE)
+                    self.cacheImage = jpeg.tobytes()
+
+                if datetime.now() < self.cacheImageUntil and self.cacheImage != b'':
+                    return self.cacheImage
+                else:
+                    return jpeg.tobytes()
 
     def __del__(self):
         self.cap.release()
