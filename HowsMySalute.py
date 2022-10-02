@@ -145,8 +145,10 @@ class salute(object):
                 #Flip the image
                 image = cv2.flip(image, 1)
                 
+                allgood = uparm=="GOOD" and forearm=="GOOD" and palm=="GOOD" and flat=="GOOD"
+
                 # Scoring box
-                if uparm=="GOOD" and forearm=="GOOD" and palm=="GOOD" and flat=="GOOD":
+                if allgood:
                     cv2.rectangle(image, (0,400), (640, 480), (95, 137, 76), -1)
                 else:
                     cv2.rectangle(image, (0,400), (640, 480), (45, 45, 45), -1)
@@ -165,7 +167,15 @@ class salute(object):
                 cv2.putText(image, flat, (435,460), cv2.FONT_HERSHEY_DUPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
                 ret, jpeg = cv2.imencode(".jpg", image)
-                return jpeg.tobytes()
+
+                if allgood:
+                    self.cacheImageUntil = datetime.now() + timedelta(seconds = PAUSE_FOR_GOOD_SALUTE)
+                    self.cacheImage = jpeg.tobytes()
+
+                if datetime.now() < self.cacheImageUntil and self.cacheImage != b'':
+                    return self.cacheImage
+                else:
+                    return jpeg.tobytes()
 
     def __del__(self):
         self.cap.release()
