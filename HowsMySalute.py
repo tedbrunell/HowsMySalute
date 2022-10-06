@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# Number of seconds to hold good salute score
+PAUSE_FOR_GOOD_SALUTE = 1
+
 # Import Libraries
 
 import cv2
 import mediapipe as mp
 import numpy as np
+from datetime import datetime, timedelta
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
@@ -26,6 +30,12 @@ class salute(object):
         return angle
 
     def __init__(self):
+        # End time for holding good salute score
+        self.cacheImageUntil = datetime.now()
+
+        # Cached good salute image is empty
+        self.cacheImage = b''
+
         # For webcam input:
         self.cap = cv2.VideoCapture(-1, cv2.CAP_V4L) 
 
@@ -132,7 +142,7 @@ class salute(object):
 
                     angle = self.calculate_angle(pt1,pt2)
 
-                    if angle >= 130 and angle <= 140:
+                    if angle >=130 and angle <= 140:
                         flat = "GOOD"
                     else:
                         flat = "not visible"
