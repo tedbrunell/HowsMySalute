@@ -6,15 +6,16 @@
       background-color: #2d2d2d;
       box-sizing: border-box;
       }
+/* GRID CSS SETUP */
   .grid-container {
       display: grid;
-      grid-template-columns: 45% auto;
-      column-gap: .5vmin;
+      grid-template-columns: 50vw auto;
+      column-gap: .5vw;
       }
   .grid-title {
       color: white;
       font-family: arial;
-      font-size: 6vmin;
+      font-size: 6vh;
       font-weight: bold;
       text-align: center;
       text-shadow: 1px 1px 2px black, 0 0 3px black, 0 0 10px black;
@@ -29,45 +30,82 @@
       }
   .grid-text {
       display: grid;
-      font-size: 2.7vmin;
+      height: 75vh;
+      font-size: 3vh;
       color: white;
       font-family: arial;
-      background-image: url("/static/graphics/navy.png");
+      background-image: url("/static/graphics/usmc.png");
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
-      margin-right: 3vw;
+      margin-top: 2vh;
+      margin-right: 2vw;
+      margin-left: 1vw;
       grid-row-start: 2;
       grid-row-end: 4;
       grid-column-start: 2;
       grid-column-end: 3;
-      align-items: center;
-      justify-content: center;
+      text-align: left;
+      }
+  .grid-text img {
+      width: 100%;
+      margin-top: 5vh;
+      vertical-align: middle;
       }
   .grid-video {
       display: grid;
-      height: 28vmax;
+      height: 70vh;
       padding: 0;
-      margin: 0;
+      margin-top: 1vh;
       align-items: center;
       justify-content: center;
       }
   .grid-logo {
-      height: 10vmin;
-      margin-top: 15vm;
+      display: grid;
+      height: 10vh;
+      margin-top: 1vh;
       background-image: url("/static/graphics/RedHatLogo.svg");
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
       position: relative;
       }
-  .quote {
-      font-size: 2.3vmin;
-      font-family: "Lucida Console", "Courier New", monospace;
-      color: white;
-      margin-left: 1vw;
-      margin-right: 2vw;
+/* SLIDER CSS SETUP */
+  /* Slideshow container */
+  .slideshow-container {
+      width: 45vw;
+      height: 65vh;
+      position: relative;
+      /* margin: auto; */
       }
+
+  /* The dots/bullets/indicators */
+  .dot {
+      height: 1vh;
+      width: 1vw;
+      margin: 0 2px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+      }
+
+  .active {
+      background-color: #717171;
+      }
+
+  /* Fading animation */
+  .fade {
+      animation-name: fade;
+      animation-duration: 1.5s;
+      }
+
+  @keyframes fade {
+      from {opacity: .4}
+      to {opacity: 1}
+      }
+
+
   </style>
   </head>
   <body>
@@ -75,29 +113,86 @@
       <div class="grid-title">
         How's Your Salute?
       </div>
+
       <div class="grid-video">
         <img src="{{ url_for('video_feed') }}" style="width:100%;height:100%;object-fit:contain"></img>
       </div>
+
       <div class="grid-text">
-    	<p><b>Does your salute meet U.S. Navy standards?</b></p>
+        <div class="slideshow-container">
 
-    	<p>Marine Corps Order (MCO) 5060.20 describes the hand salute drill movement for U.S. Navy as follows.</p>
+          <!-- Slides Follow -->
+          <div class="mySlides fade">
+            <h2>Let's check it out</h2>
+            <p>Stand in front of the camera</p>
+            <ul>
+              <li>Render a hand salute</li>
+              <li>Try to score "GOOD" on all</li>
+            </ul>
+            <h2>What just happened</h2>
+            <ul>
+              <li>AI/ML processing at the edge</li>
+              <li>Running on a Small Form Factor (SFF) device</li>
+              <li>Cloud Native workload environment</li>
+              <li>Operates over D/DIL networks</li>
+            </ul>
+          </div>
 
-    	<div class="quote">
-    	  When "SALUTE" is given, raise your right hand smartly in the most direct manner until the tip of your forefinger touches the lower part of the headdress above and slightly right of your right eye.  Your fingers should be extended straight and joined with the thumb along the forefinger. You should be able to see your entire palm when looking straight ahead. Your upper arm should be parallel with the deck with the elbow inline with the body and your forearm at a 45-degree angle.  Your wrist and hand should be straight, a continuation of the line made by your forearm. At the same time, if not in ranks, turn your head and eyes toward the person or colors you are saluting.
-    	</div>
+          <div class="mySlides fade">
+            <img src="/static/graphics/Distributed_GitOps_at_the_Edge.png"></img>
+          </div>
 
-    	<p>This computer vision program will grade you on the following aspects of the hand salute.  Can you get a good grade in all of them?</p>
-
-    	<ul>
-	    <li>Upper Arm is parallel to the deck</li>
-	    <li>Forearm is at a 45 degree angle</li>
-	    <li>Wrist and hand are in-line with the forearm</li>
-	    <li>Palm is not visible</li>
-    	</ul>
+          <div class="mySlides fade">
+            <h2>This demo is powered by Red Hat’s years of experience in automotive, industrial manufacturing, retail, and telco</h2>
+            <p>Automate <i>Everything!</i></p>
+            <ul>
+              <li>Initial Provisioning</li>
+              <li>Final Onboarding</li>
+              <li>System/App Maintenance</li>
+            </ul>
+            <p>Other Advantages</p>
+            <ul>
+              <li>Do more with less</li>
+              <li>Force Multipliers</li>
+              <ul>
+                <li>Technology</li>
+                <li>Personnel</li>
+                <li>AI/ML</li>
+              </ul>
+            </ul>
+          </div>
+        </div>
+        <br></br>
+          <!-- The dots/circles -->
+        <div style="text-align:center">
+          <span class="dot" onclick="currentSlide(1)"></span>
+          <span class="dot" onclick="currentSlide(2)"></span>
+          <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
       </div>
       <div class="grid-logo">
       </div>
     </div>
+    <script>
+let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  setTimeout(showSlides, 7000); // Change image every 2 seconds
+}
+  </script>
   </body>
-</html>
+  </html>
